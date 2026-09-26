@@ -1,0 +1,72 @@
+class Account:
+    def __init__(self, balance):
+        self.balance = balance
+        self.transactions = {}
+    def add_transaction(self):
+        date = input("date: YY/MM/DD: ")
+        while True:
+            direction = input("direction: buy/sell: ")
+            if direction != "buy" and direction != "sell":
+                print("Enter only buy or sell: ")
+                continue
+            category = input("category: forex/crypto/index: ")
+            if category != "forex" and category != "crypto" and category != "index":
+                print("Enter only forex or crypto or index: ")
+                continue
+            result = input("result: s/l or t/p: ")
+            if result != "s/l" and result != "t/p":
+                print("Enter only s/l or t/p: ")
+                continue
+            break
+        amount = int(input("amount: "))
+        transaction_id = int(input("transaction_id: "))
+        if result == "s/l":
+            self.balance -= amount
+        elif result == "t/p":
+            self.balance += amount
+        self.transactions[transaction_id] = {
+            "date": date,
+            "result": result,
+            "dir": direction,
+            "category": category,
+            "amount": amount,
+            "balance": self.balance
+        }
+        print("Transaction added!")
+        print()
+        print("Transaction id:", transaction_id)
+        print("Direction:", self.transactions[transaction_id]["dir"])
+        print("Date:", self.transactions[transaction_id]["date"])
+        print("Category:", self.transactions[transaction_id]["category"])
+        print("Result:", self.transactions[transaction_id]["result"])
+        print("Amount:", self.transactions[transaction_id]["amount"])
+        print("Balance:", self.transactions[transaction_id]["balance"])
+        print()
+    def delete_transaction(self):
+        transaction_id = int(input("transaction_id: "))
+        if transaction_id in self.transactions:
+            del self.transactions[transaction_id]
+            print("Transaction deleted!")
+        else:
+            print("Transaction not found!")
+    def check_transactions(self):
+        for transaction_id, transaction in self.transactions.items():
+            print(transaction_id, transaction)
+
+
+def main():
+    account = Account(int(input("balance: ")))
+    while True:
+        print("1. - add transaction")
+        print("2. - delete transaction")
+        print("3. - check transactions")
+        choice = input("Enter your choice: ")
+        if choice == "1":
+            account.add_transaction()
+        elif choice == "2":
+            account.delete_transaction()
+        elif choice == "3":
+            account.check_transactions()
+        else:
+            print("Invalid choice")
+main()
