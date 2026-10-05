@@ -1,9 +1,10 @@
 import requests
 
 
-class Crypto_Currency:
+class CryptoCurrency:
 
-    def check_the_currencies(self):
+    @staticmethod
+    def check_the_currencies() ->dict[str, float]:
         currencies = ["BTC", "ETH", "BNB", "SOL", "XRP"]
         prices = {}
         for coin in currencies:
@@ -13,8 +14,8 @@ class Crypto_Currency:
             prices[coin] = data["price"]
         return prices
 
-
-    def chosen_currency(self, coin):
+    @staticmethod
+    def chosen_currency(coin) ->dict[str, float]:
         url = f"https://api.binance.com/api/v3/ticker/price?symbol={coin.upper()}USDT"
         response = requests.get(url)
         data = response.json()
@@ -22,15 +23,14 @@ class Crypto_Currency:
 
 
 def main():
-    crypto = Crypto_Currency()
     print("1 — main currencies")
     print("2 — choose a currency")
     choice = input("Choose the option: ")
     if choice == "1":
-        print(crypto.check_the_currencies())
+        print(CryptoCurrency.check_the_currencies())
     elif choice == "2":
         coin = input("type the currency: ")
-        print(crypto.chosen_currency(coin))
+        print(CryptoCurrency.chosen_currency(coin))
     else:
         print("Wrong input")
 main()
